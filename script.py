@@ -1,37 +1,29 @@
-import os
-import influxdb_client
+from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-BUCKET = "test"
-ORG = "DevTeam"
-token = os.getenv("INFLUX_TOKEN")
-# Store the URL of your InfluxDB instance
-url="https://us-east-1-1.aws.cloud2.influxdata.com"
+bucket = "test"
 
-client = influxdb_client.InfluxDBClient(
-   url=url,
-   token=token,
-   org=ORG
-)
+client = InfluxDBClient(url="http://localhost:8086", token="", org="DevTeam")
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
-
-p = influxdb_client.Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-write_api.write(bucket=BUCKET, org=ORG, record=p)
-
 query_api = client.query_api()
 
-query = 'from(bucket:"my-bucket")\
-|> range(start: -10m)\
-|> filter(fn:(r) => r._measurement == "my_measurement")\
-|> filter(fn:(r) => r.location == "Prague")\
-|> filter(fn:(r) => r._field == "temperature")'
+p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
 
-result = query_api.query(org=ORG, query=query)
+write_api.write(bucket=bucket, record=p)
 
-results = []
-for table in result:
-  for record in table.records:
-    results.append((record.get_field(), record.get_value()))
+## using Table structure
+tables = query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
 
-print(results)
+for table in tables:
+    print(table)
+    for row in table.records:
+        print (row.values)
+
+
+## using csv library
+csv_result = query_api.query_csv('from(bucket:"my-bucket") |> range(start: -10m)')
+val_count = 0
+for row in csv_result:
+    for cell in row:
+        val_count += 1
