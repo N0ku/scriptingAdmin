@@ -3,15 +3,16 @@ from prometheus_client import start_http_server, Summary
 # import random
 import time
 import sys
+import psutil
 
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
-
 # Decorate function with metric.
 @REQUEST_TIME.time()
 def process_request(t):
     time.sleep(t)
     print(t)
+    print(psutil.cpu_times())
 
 if __name__ == '__main__':
     # Start up the server to expose the metrics.
