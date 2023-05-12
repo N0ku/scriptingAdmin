@@ -12,7 +12,7 @@ def write_to_influxdb(cpu_percent, free_memory,free_space,bytes_sent,bytes_recei
     # Write data to InfluxDB
     point =  Point("Computer").field("cpu_percent",cpu_percent).field("free_memory",free_memory).field("free_space",free_space)
     point2 = Point("Computer").field("bytes_received",bytes_received).field("bytes_sent",bytes_sent).field("packets_sent",packets_sent).field("packets_received",packets_received)
-    print(point)
+
     client.write_api().write(bucket="Computer",org="UwU",record=point)
     client.write_api().write(bucket="Computer",org="UwU",record=point2)
     # Close InfluxDB client connection
@@ -30,8 +30,8 @@ def get_system_info():
     bytes_received = network_info.bytes_recv
     packets_sent = network_info.packets_sent
     packets_received = network_info.packets_recv
-    print(f"CPU: {cpu_percent}")
-    print(f"Free Memory: {free_memory}")
+    print(f"CPU: {cpu_percent} %")
+    print(f"Free Memory: {free_memory} MB")
 
     # Write to InfluxDB
     write_to_influxdb(cpu_percent, free_memory,free_space,bytes_sent,bytes_received,packets_sent,packets_received)
