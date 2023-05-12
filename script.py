@@ -28,10 +28,10 @@ def updateTemperature():
         c.Hardware[1].Update()
     return [cpuTemp, gpuTemp]
 
-def sendData(pointName, tagName, fieldName, fieldValue):
+def sendData(pointName, fieldName, fieldValue):
   point = (
     Point(pointName)
-    .tag(tagName, socket.gethostname())
+    # .tag(tagName, socket.gethostname())
     .field(fieldName, int(fieldValue))
   )
   write_api.write(bucket=buckeţ, org=org, record=point)
@@ -53,10 +53,10 @@ while True:
   if(platform.system() == "Windows"):
     mesure = updateTemperature()
     if(mesure[0] != None):
-      sendData("Computer", "CPU", "Temperature", mesure[0])
-    sendData("Computer", "GPU", "Temperature", mesure[1])
+      sendData("Computer", "CPU Temperature", mesure[0])
+    sendData("Computer", "GPU Temperature", mesure[1])
 
-  sendData("Computer", "Memory", "Usage", psutil.virtual_memory().percent)
-  sendData("Computer", "CPU", "Usage", psutil.cpu_freq().current)
-  sendData("Computer", "Disk", "Usage", psutil.disk_usage('/').percent)
+  sendData("Computer", "Memory usage", psutil.virtual_memory().percent)
+  sendData("Computer", "CPU usage", psutil.cpu_freq().current)
+  sendData("Computer", "Disk usage", psutil.disk_usage('/').percent)
   time.sleep(1)
