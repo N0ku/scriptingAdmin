@@ -2,6 +2,7 @@ import influxdb_client, platform, time, socket, psutil
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
+from random import randint
 
 if(platform.system() != "Darwin"):
   import clr
