@@ -25,8 +25,8 @@ MEMORY_USED.set(psutil.virtual_memory().percent)
 BATTERY_LEFT = Gauge('battery_left', 'Percent of battery you have')
 BATTERY_LEFT.set(psutil.sensors_battery().percent)
 
-prom = PrometheusConnect("url de prometheus", True)
-prom.all_metrics()
+# prom = PrometheusConnect("url de prometheus", True)
+# prom.all_metrics()
 
 if __name__ == '__main__':
     # Start up the server to expose the metrics.
