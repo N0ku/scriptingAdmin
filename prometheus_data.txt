@@ -1,0 +1,1 @@
+CPU usage in percent Memory used in percent Battery left in percent 1.8%    82.4%    60.0%  1.8%    82.4%    60.0%  1.8%    82.4%    60.0%  
