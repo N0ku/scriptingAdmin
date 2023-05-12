@@ -1,7 +1,7 @@
-from prometheus_client import start_http_server, Summary, Gauge
-import time
-import sys
 import psutil
+import sys
+import time
+from prometheus_client import start_http_server, Summary, Gauge
 
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds',
@@ -24,6 +24,7 @@ if __name__ == '__main__':
     # Start up the server to expose the metrics.
     start_http_server(8000)
     # Generate some requests.
+    filename = "prometheus_data_" + time.localtime + ".txt"
     f = open("prometheus_data.txt", "w+")
     f.write("CPU usage in percent Memory used in percent Battery left in percent \r")
     while True:
