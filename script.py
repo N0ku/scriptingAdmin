@@ -41,9 +41,9 @@ load_dotenv()
 token = os.getenv("TOKEN")
 org = os.getenv("ORG")
 url = os.getenv("HOST")
+buckeţ = os.getenv("BUCKET_NAME")
 
 write_client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
-buckeţ = "Test"
 write_api = write_client.write_api(write_options=SYNCHRONOUS)
 
 print("Initialization completed")
