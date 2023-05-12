@@ -1,8 +1,11 @@
-import influxdb_client, platform, time, socket, psutil
+import influxdb_client, platform, time, socket, psutil, dotenv, os
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from random import randint
+from dotenv import load_dotenv
+
+print("Starting ...")
 
 if(platform.system() != "Darwin"):
   import clr
@@ -35,16 +38,21 @@ c.CPUEnabled = True
 c.GPUEnabled = True
 c.Open()
 
-token = "k3vbvIGPdyGJa1q3baR5ygN9KCK_T0km5plhDLWIFWpmxoY_WnV79X-l63WBe-EDn7PkNG63sCPLlkhAH78G7w=="
-org = "UwU"
-url = "http://192.168.165.39:8086"
+load_dotenv()
+
+token = os.getenv("TOKEN")
+org = os.getenv("ORG")
+url = os.getenv("HOST")
 
 write_client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
 buckeţ = "Test"
 write_api = write_client.write_api(write_options=SYNCHRONOUS)
 
+print("Initialization completed")
+print("(i) Sending data")
+
 while True:
-  if(platform.system() != "Darwin"):
+  if(platform.system() == "Windows"):
     mesure = updateTemperature()
     if(mesure[0] != None):
       sendData("Computer", "CPU", "Temperature", mesure[0])
