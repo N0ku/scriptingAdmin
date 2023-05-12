@@ -11,6 +11,10 @@ if(platform.system() != "Darwin"):
   import clr
   clr.AddReference(r'OpenHardwareMonitor/OpenHardwareMonitorLib')
   from OpenHardwareMonitor.Hardware import Computer # import the .dll ( DONT WORK ON MAC )
+  c = Computer()
+  c.CPUEnabled = True
+  c.GPUEnabled = True
+  c.Open()
 
 def updateTemperature():
   for a in range(0, len(c.Hardware[0].Sensors)):
@@ -31,12 +35,6 @@ def sendData(pointName, tagName, fieldName, fieldValue):
     .field(fieldName, int(fieldValue))
   )
   write_api.write(bucket=buckeţ, org=org, record=point)
-
-
-c = Computer()
-c.CPUEnabled = True
-c.GPUEnabled = True
-c.Open()
 
 load_dotenv()
 
