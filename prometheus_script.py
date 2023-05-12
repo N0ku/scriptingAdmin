@@ -1,5 +1,6 @@
 # use https://github.com/prometheus/client_python#exporting-to-a-pushgateway for all pip installation
 from prometheus_client import start_http_server, Summary, Gauge
+from prometheus_api_client import PrometheusConnect
 # import random
 import time
 import sys
@@ -24,6 +25,8 @@ MEMORY_USED.set(psutil.virtual_memory().percent)
 BATTERY_LEFT = Gauge('battery_left', 'Percent of battery you have')
 BATTERY_LEFT.set(psutil.sensors_battery().percent)
 
+prom = PrometheusConnect("url de prometheus", True)
+prom.all_metrics()
 
 if __name__ == '__main__':
     # Start up the server to expose the metrics.
