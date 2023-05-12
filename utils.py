@@ -7,7 +7,7 @@ INFLUXDB_MEASUREMENT = 'system_info'
 
 def write_to_influxdb(cpu_percent, free_memory,free_space,bytes_sent,bytes_received,packets_sent,packets_received):
     # Create InfluxDB client
-    client = InfluxDBClient(url="http://10.57.33.170:8086", token="k3vbvIGPdyGJa1q3baR5ygN9KCK_T0km5plhDLWIFWpmxoY_WnV79X-l63WBe-EDn7PkNG63sCPLlkhAH78G7w==", org="UwU")
+    client = InfluxDBClient(url="http://192.168.165.10:8086", token="k3vbvIGPdyGJa1q3baR5ygN9KCK_T0km5plhDLWIFWpmxoY_WnV79X-l63WBe-EDn7PkNG63sCPLlkhAH78G7w==", org="UwU")
 
     # Write data to InfluxDB
     point =  Point("Computer").field("cpu_percent",cpu_percent).field("free_memory",free_memory).field("free_space",free_space)
